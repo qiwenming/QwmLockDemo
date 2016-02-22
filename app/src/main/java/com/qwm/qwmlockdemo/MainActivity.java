@@ -1,5 +1,6 @@
 package com.qwm.qwmlockdemo;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -12,6 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.qwm.qwmlockdemo.bean.LockBean;
 import com.qwm.qwmlockdemo.view.OneColumDialog;
 
 import java.util.Arrays;
@@ -147,5 +149,11 @@ public class MainActivity extends AppCompatActivity {
             Snackbar.make(view,"锁地址不能为空",Snackbar.LENGTH_SHORT).show();
             return;
         }
+        LockBean lockBean = new LockBean(addressStr,bauteRateStr,boardAddStr,lockAddStr);
+
+        //打开开锁的Activity
+        Intent intent = new Intent(this,OpenLockActivity.class);
+        intent.putExtra("lockBean",lockBean);
+        startActivity(intent);
     }
 }
