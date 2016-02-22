@@ -1,10 +1,8 @@
 package com.qwm.qwmlockdemo;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -68,12 +66,11 @@ public class OpenLockActivity  extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.open_lock_layout);
-//        setContentView(R.layout.open_lock_layout);
-        titleTv = (TextView)findViewById(R.id.tv_title);
+        titleTv = (TextView)findViewById(R.id.tv_board_lock);
         timeTv = (TextView)findViewById(R.id.tv_time);
         //获取传递过来的bean
         lockBean = (LockBean) getIntent().getSerializableExtra("lockBean");
-        titleTv.setText("板"+lockBean.boardAddStr+"锁"+lockBean.lockAddStr+"打开");
+        titleTv.setText("板" + lockBean.boardAddStr + "锁" + lockBean.lockAddStr +"打开");
         openBox();
     }
 
