@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.PersistableBundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import com.qwm.qwmlockdemo.bean.LockBean;
@@ -30,7 +32,7 @@ import java.util.concurrent.TimeUnit;
  * 2.打开锁
  * 3.打开关锁的监听
  */
-public class OpenLockActivity  extends Activity{
+public class OpenLockActivity  extends AppCompatActivity {
     /**
      * 标题
      */
@@ -63,13 +65,24 @@ public class OpenLockActivity  extends Activity{
     private int second = 300;
 
     @Override
-    public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.open_lock_layout);
+//        setContentView(R.layout.open_lock_layout);
         titleTv = (TextView)findViewById(R.id.tv_title);
         timeTv = (TextView)findViewById(R.id.tv_time);
         //获取传递过来的bean
         lockBean = (LockBean) getIntent().getSerializableExtra("lockBean");
+        titleTv.setText("板"+lockBean.boardAddStr+"锁"+lockBean.lockAddStr+"打开");
+        openBox();
+    }
+
+    /**
+     * 放回
+     * @param view
+     */
+    public void black(View view){
+        finish();
     }
 
 
@@ -110,11 +123,11 @@ public class OpenLockActivity  extends Activity{
             @Override
             public void onReceived(String receviceStr) {
                 Log.i("onReceived_receviceStr", receviceStr);
+                countdown();
                 if(receviceStr.length()<4){//代表开锁失败
                     mHandler.sendEmptyMessageDelayed(CLOSEBOX, 1000);
                     return;
                 }
-                titleTv.setText("板"+lockBean.boardAddStr+"锁"+lockBean.lockAddStr+"打开");
                 String stop = receviceStr.substring(receviceStr.length()-4, receviceStr.length());
                 if(stop.equals(openStopstr)){
                     mHandler.sendEmptyMessageDelayed(CLOSEBOX, 1000);
@@ -227,4 +240,10 @@ public class OpenLockActivity  extends Activity{
         });
     }
 
+    @Override
+    protected void onDestroy() {
+        mHandler.removeMessages(CLOSEBOX);
+        mHandler.removeMessages(COUNTDOWN);
+        super.onDestroy();
+    }
 }
