@@ -1,5 +1,9 @@
 # QwmLockDemo
 电子锁的操作
+
+http://blog.csdn.net/qiwenmingshiwo/article/details/50717517
+
+
 #android串口通信——电子锁
 
 
